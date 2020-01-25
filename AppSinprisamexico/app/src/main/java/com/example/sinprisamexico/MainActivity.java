@@ -27,37 +27,36 @@ public class MainActivity extends AppCompatActivity {
 
 
         ServicioCatAdministrador servicioCatAdministrador = ConexionSinprisa.ObtenerConexion().create(ServicioCatAdministrador.class);
-       // Call<List<ModeloCatAdministrador>> modeloCatAdministradorCall = servicioCatAdministrador.MetodoObtenerCatAdministrador();
-        Call<String> metodoCrearCatAdministrador = servicioCatAdministrador.MetodoCrearCatAdministrador("Diego", "12345");
+        Call<List<ModeloCatAdministrador>> modeloCatAdministradorCall = servicioCatAdministrador.MetodoObtenerCatAdministrador();
+       // Call<String> metodoCrearCatAdministrador = servicioCatAdministrador.MetodoCrearCatAdministrador("Diego", "12345");
 
-        metodoCrearCatAdministrador.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                String Resultado = response.body();
-                Toast.makeText(MainActivity.this, Resultado, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_LONG).show();
-            }
-        });
-
-
-       // modeloCatAdministradorCall.enqueue(new Callback<List<ModeloCatAdministrador>>() {
+        //metodoCrearCatAdministrador.enqueue(new Callback<String>() {
          //   @Override
-          //  public void onResponse(Call<List<ModeloCatAdministrador>> call, Response<List<ModeloCatAdministrador>> response) {
-
-            //    List<ModeloCatAdministrador> modeloCatAdministradors = response.body();
-             //   Toast.makeText(MainActivity.this, "Correcto", Toast.LENGTH_LONG).show();
+           // public void onResponse(Call<String> call, Response<String> response) {
+             //   String Resultado = response.body();
+              //  Toast.makeText(MainActivity.this, Resultado, Toast.LENGTH_LONG).show();
             //}
-
             //@Override
-            //public void onFailure(Call<List<ModeloCatAdministrador>> call, Throwable t) {
-
+            //public void onFailure(Call<String> call, Throwable t) {
               //  Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_LONG).show();
             //}
         //});
+
+
+       modeloCatAdministradorCall.enqueue(new Callback<List<ModeloCatAdministrador>>() {
+          @Override
+            public void onResponse(Call<List<ModeloCatAdministrador>> call, Response<List<ModeloCatAdministrador>> response) {
+
+                List<ModeloCatAdministrador> modeloCatAdministradors = response.body();
+                Toast.makeText(MainActivity.this, "Correcto", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<List<ModeloCatAdministrador>> call, Throwable t) {
+
+              Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_LONG).show();
+            }
+        });
 
         //
        // ModeloCatAdministrador modeloCatAdministrador = gson.fromJson()
