@@ -2,7 +2,10 @@ package com.example.sinprisamexicorepartidor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +17,7 @@ import com.example.sinprisamexicorepartidor.Modelos.ModeloCatAdministrador;
 import com.example.sinprisamexicorepartidor.Modelos.ModeloCatRepartidor;
 import com.example.sinprisamexicorepartidor.Servicio.ServicioCatAdministrador;
 import com.example.sinprisamexicorepartidor.Servicio.ServicioCatRepartidor;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -36,42 +40,66 @@ public class MainActivity extends AppCompatActivity {
         btn_Ingresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+
                 try {
 
-                    ServicioCatRepartidor servicioCatRepartidor = Conexion.ObtenerConexion().create(ServicioCatRepartidor.class);
+                    ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                    NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
-                    Long number =  Long. parseLong("2223024637") ;
+                    if (networkInfo != null && networkInfo.isConnected()) {
+                        ServicioCatRepartidor servicioCatRepartidor = Conexion.ObtenerConexion().create(ServicioCatRepartidor.class);
 
-                    Call<List<ModeloCatRepartidor>> modeloCatRepartidorCall = servicioCatRepartidor.MetodoObtenerCatRepartidor(number,"12345");
+                        Long number =  Long. parseLong("2223024637") ;
 
-                    modeloCatRepartidorCall.enqueue(new Callback<List<ModeloCatRepartidor>>() {
-                        @Override
-                        public void onResponse(Call<List<ModeloCatRepartidor>> call, Response<List<ModeloCatRepartidor>> response) {
+                        Call<List<ModeloCatRepartidor>> modeloCatRepartidorCall = servicioCatRepartidor.MetodoObtenerCatRepartidor(number,"12345");
 
-                            List<ModeloCatRepartidor> modeloCatRepartidors = response.body();
+                        modeloCatRepartidorCall.enqueue(new Callback<List<ModeloCatRepartidor>>() {
+                            @Override
+                            public void onResponse(Call<List<ModeloCatRepartidor>> call, Response<List<ModeloCatRepartidor>> response) {
 
-                            if (modeloCatRepartidors.size()>0)
-                            {
-                                String Nombre =  modeloCatRepartidors.get(0).nvNombre + " " + modeloCatRepartidors.get(0).nvPaterno;
-                                int inRepartidorPK = modeloCatRepartidors.get(0).inRepartidorPK;
+                                List<ModeloCatRepartidor> modeloCatRepartidors = response.body();
 
-                                MetodoCambiarLayout(inRepartidorPK, Nombre);
+                                if (modeloCatRepartidors.size()>0)
+                                {
+                                    String Nombre =  modeloCatRepartidors.get(0).nvNombre + " " + modeloCatRepartidors.get(0).nvPaterno;
+                                    int inRepartidorPK = modeloCatRepartidors.get(0).inRepartidorPK;
+
+                                    MetodoCambiarLayout(inRepartidorPK, Nombre);
+                                }
+                                else {
+
+                                    View contextView = findViewById(R.id.containerMain);
+                                    Snackbar mySnackbar = Snackbar.make(contextView, "No existe el usuario", Snackbar.LENGTH_LONG);
+                                    mySnackbar.show();
+
+                                    //Toast.makeText(MainActivity.this, "No existe el usuario", Toast.LENGTH_LONG).show();
+                                }
+
+
+
                             }
-                            else {
-                                Toast.makeText(MainActivity.this, "No existe el usuario", Toast.LENGTH_LONG).show();
+
+                            @Override
+                            public void onFailure(Call<List<ModeloCatRepartidor>> call, Throwable t) {
+
+                                String Respuesta = t.getMessage();
+
+                                View contextView = findViewById(R.id.containerMain);
+                                Snackbar mySnackbar = Snackbar.make(contextView, "Error:" + Respuesta, Snackbar.LENGTH_LONG);
+                                mySnackbar.show();
+                                //Toast.makeText(MainActivity.this, Respuesta + "-Repuesta", Toast.LENGTH_LONG).show();
                             }
+                        });
+                    }else {
+
+                        View contextView = findViewById(R.id.containerMain);
+                        Snackbar mySnackbar = Snackbar.make(contextView, "No hay conexión a internet", Snackbar.LENGTH_LONG);
+                        mySnackbar.show();
+                    }
 
 
-
-                        }
-
-                        @Override
-                        public void onFailure(Call<List<ModeloCatRepartidor>> call, Throwable t) {
-
-                            String Respuesta = t.getMessage();
-                            Toast.makeText(MainActivity.this, Respuesta + "-Repuesta", Toast.LENGTH_LONG).show();
-                        }
-                    });
 
 
                 }
@@ -79,7 +107,12 @@ public class MainActivity extends AppCompatActivity {
                 {
 
                     String Mensaje = ex.toString();
-                    Toast.makeText(MainActivity.this, Mensaje + "Catch", Toast.LENGTH_LONG).show();
+
+                    View contextView = findViewById(R.id.containerMain);
+                    Snackbar mySnackbar = Snackbar.make(contextView, "Error:" + Mensaje, Snackbar.LENGTH_LONG);
+                    mySnackbar.show();
+
+                    //Toast.makeText(MainActivity.this, Mensaje + "Catch", Toast.LENGTH_LONG).show();
                 }
             }
         });

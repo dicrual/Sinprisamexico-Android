@@ -4,4 +4,5 @@
     <string name="et_bigTelefono">Teléfono</string>
     <string name="et_nvContrasena">Contraseña</string>
     <string name="btn_Ingresar">Ingresar</string>
+    <string name="title_activity_ubicacion">Map</string>
 </resources>
