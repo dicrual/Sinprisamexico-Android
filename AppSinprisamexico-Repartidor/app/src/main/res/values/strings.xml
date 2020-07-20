@@ -5,4 +5,11 @@
     <string name="et_nvContrasena">Contraseña</string>
     <string name="btn_Ingresar">Ingresar</string>
     <string name="title_activity_ubicacion">Map</string>
+
+
+    <!-- Titulos Main  -->
+    <string name="et_hint_bigTelefono">Teléfono</string>
+    <string name="et_hint_bigContrasena">Contraseña</string>
+
+
 </resources>
