@@ -27,7 +27,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText et_bigTelefono, et_nvContrasena;
+
     private Button btn_Ingresar;
 
     @Override
@@ -49,11 +49,13 @@ public class MainActivity extends AppCompatActivity {
                     NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
                     if (networkInfo != null && networkInfo.isConnected()) {
+                        //ServicioCatAdministrador servicioCatAdministrador = Conexion.ObtenerConexion().create(ServicioCatAdministrador.class);
                         ServicioCatRepartidor servicioCatRepartidor = Conexion.ObtenerConexion().create(ServicioCatRepartidor.class);
 
                         Long number =  Long. parseLong("2223024637") ;
 
-                        Call<List<ModeloCatRepartidor>> modeloCatRepartidorCall = servicioCatRepartidor.MetodoObtenerCatRepartidor(number,"12345");
+                        //Call<List<ModeloCatAdministrador>> modeloCatRepartidorCall = servicioCatAdministrador.MetodoObtenerCatAdministrador();
+                        Call<List<ModeloCatRepartidor>> modeloCatRepartidorCall = servicioCatRepartidor.MetodoObtenerCatRepartidor(number, "12345");
 
                         modeloCatRepartidorCall.enqueue(new Callback<List<ModeloCatRepartidor>>() {
                             @Override
@@ -63,10 +65,10 @@ public class MainActivity extends AppCompatActivity {
 
                                 if (modeloCatRepartidors.size()>0)
                                 {
-                                    String Nombre =  modeloCatRepartidors.get(0).nvNombre + " " + modeloCatRepartidors.get(0).nvPaterno;
-                                    int inRepartidorPK = modeloCatRepartidors.get(0).inRepartidorPK;
+                                    String Nombre =  modeloCatRepartidors.get(0).nvNombre ;
+                                    //int inRepartidorPK = modeloCatRepartidors.get(0).inRepartidorPK;
 
-                                    MetodoCambiarLayout(inRepartidorPK, Nombre);
+                                    //MetodoCambiarLayout(inRepartidorPK, Nombre);
                                 }
                                 else {
 
@@ -122,8 +124,7 @@ public class MainActivity extends AppCompatActivity {
     private void GenerarBotones ()
     {
         btn_Ingresar = (Button) findViewById(R.id.btn_Ingresar);
-        et_bigTelefono = (EditText) findViewById(R.id.et_bigTelefono);
-        et_nvContrasena = (EditText) findViewById(R.id.et_nvContrasena);
+
     }
 
     private void MetodoCambiarLayout (int inRepartidorPK, String Nombre)

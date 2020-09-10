@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Conexion {
 
-    public static final String URL = "http://servicio.sinprisamexico.com/api/";
+    public static final String URL = "http://serviciolk.enfa.online/api/";
     private static Retrofit retrofit = null;
 
     public static Retrofit ObtenerConexion ()

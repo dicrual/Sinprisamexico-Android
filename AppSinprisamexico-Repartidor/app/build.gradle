@@ -41,9 +41,7 @@ dependencies {
     //Libreria Material Design
     implementation 'com.google.android.material:material:1.2.0-alpha05'
 
-    //Libreria Butter Knife
-    implementation 'com.jakewharton:butterknife:10.2.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+
 
     //Libreria elegant number
     implementation 'com.cepheuen.elegant-number-button:lib:1.0.2'
